@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <title>Local Store LOGIN</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0"></script>
+
+     <style>
+  /* Make the image fully responsive */
+  body {
+  background-color: lightblue;
+}
+
+
+  { margin:0; padding: 0; font-family: 'Courgette', cursive;
+ </style>
+
+<body>
+<main class="p-5">
+    <div class="row text-justify">
+        <div class="col">
+            <h1>Login Page</h1>
+            <hr>
+        </div>
+
+    </div>
+
+<form enctype="multipart/form-data" method="post" >
+    {% csrf_token %}
+     {{form|crispy}}
+    <br>
+     <input class="btn btn-primary" type="submit"/>
+    <a class="btn btn-success" href="/accounts/register/">Register</a>
+    <a class="btn btn-danger" href="/accounts/password/reset">Reset password</a>
+</form>
+
+</main>
+  </body>
+{% endblock %}

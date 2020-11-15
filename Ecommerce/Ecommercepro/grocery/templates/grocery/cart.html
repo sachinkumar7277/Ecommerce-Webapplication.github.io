@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+	<!-- //banner-2 -->
+<body>	<!-- page -->
+
+
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/grocery/home">Home</a>
+						<i>|</i>
+					</li>
+					<li>My Cart</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- checkout page -->
+	<div class="privacy">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">My Cart
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+
+			<div class="checkout-right">
+				{% if user.is_authenticated %}
+                 <button style="float:right; height:40px;" class="btn bnt-danger"><a href="/grocery/home"><<<<-Continue Shopping</a></button>
+				<h4>Your shopping cart contains:
+					<span>{{Order.get_cart_items}} Products</span>
+				</h4>
+
+
+				<div class="table-responsive">
+					<table class="timetable_sub">
+						<thead>
+							<tr>
+								<th>Product</th>
+								<th>Quality</th>
+								<th>Product Name</th>
+
+								<th>Price</th>
+								<th>Total</th>
+								<th>Remove</th>
+							</tr>
+						</thead>
+						{% for i in items %}
+						<tbody>
+							<tr class="rem1">
+
+								<td class="invert-image">
+									<a href="single2.html">
+										<img src="{{i.item_ordered.item_imgURL}}" alt=" " class="img-responsive">
+									</a>
+								</td>
+								<td class="invert">
+									<div class="quantity">
+										<div class="quantity-select">
+											<img data-product="{{i.item_ordered.id}}" data-action="add" class="button chg-quantity update-cart img-responsive" src="{% static  'images/arrow-up.png' %}"  style="float: right;" width="20px" height="10px"><br>
+											<div class="entry value">
+												<span>{{i.quantity}}</span><br>
+											</div><br>
+											<img data-product="{{i.item_ordered.id}}" data-action="remove" class="button chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}"  style="float: right;" width="20px" height="10px"><br>
+										</div>
+									</div>
+								</td>
+								<td class="invert">{{i.item_ordered.item_name}}</td>
+								<td class="invert">Rs {{i.item_ordered.price}}</td>
+								<td class="invert">Rs {{i.get_total}}</td>
+								<td class="invert">
+									<form action="#" method="post">
+										{% csrf_token %}
+										<fieldset>
+											<input type="submit" name="submit" value="Remove" data-product="{{i.item_ordered.id}}" data-action="delete" class="button update-cart" />
+										</fieldset>
+									</form>
+								</td>
+							</tr>
+
+						</tbody>
+						{% endfor %}
+					</table>
+				</div>
+                <div>
+				   <h1 style="float:right; color: #40424a;">Total Amount: Rs {{Order.get_cart_total}}</h1><br>
+				   <br>
+				     {% if Order.get_cart_total == 0 %}
+				       <h3>Your Cart is Empty Check our Exclusive Offer</h3>
+				     {% else %}
+				       <a href="/grocery/checkout"> <button style="float:right; height:40px;">Go Checkout >>>>></button></a>
+				     {% endif %}
+                </div>
+				{% else %}
+                 <h1 style="float:right; color: #40424a;"> You are not logged in  Sign in First</h1>
+				<h1 ><a href="/grocery/home"><<<<-Continue Shopping</a></h1>
+				{% endif %}
+
+
+			</div>
+		</div>
+	</div>
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+     <script src="{% static 'js/cart.js' %}"></script>
+
+</body>
+	<!-- //checkout page -->
+	{% endblock %}

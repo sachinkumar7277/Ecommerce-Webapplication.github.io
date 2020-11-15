@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/grocery/home">Home</a>
+						<i>|</i>
+					</li>
+					<li>Register Shop</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- checkout page -->
+	<div class="privacy">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Register shop Now
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+
+			  <div class="checkout-left">
+				 <div class="address_form_agile">
+					<h4>Fill Form below to Register Your Shop</h4>
+					<form action="#" id="form" method="post" class="creditly-card-form agileinfo_form" enctype="multipart/form-data"> {% csrf_token %}
+
+						<div class="creditly-wrapper wthree, w3_agileits_wrapper">
+							<div class="information-wrapper shipping-info">
+								<div class="first-row">
+									<div class="controls">
+										<input class="billing-address-name" type="text" name="shopname" placeholder=" Enter Shop Name" required="">
+									</div>
+									<div class="controls">
+										<input class="billing-address-name" type="text" name="retailername" placeholder=" Enter Retailer Name" required="">
+									</div>
+									<div class="w3_agileits_card_number_grids">
+										<div class="w3_agileits_card_number_grid_left">
+											<div class="controls">
+												<input type="number" placeholder="Shop Contact Number" name="number" required="">
+											</div>
+										</div>
+										<div class="w3_agileits_card_number_grid_right">
+											<div class="controls">
+												<input type="text" placeholder="Landmark of shop" name="landmark">
+											</div>
+										</div>
+										<div class="clear"> </div>
+									</div>
+									<div class="controls">
+										<input type="text" placeholder="Town/City" name="city" required="">
+									</div>
+									<div class="controls">
+										<input type="number" placeholder="Pincode" name="pincode" required="">
+									</div>
+									<div class="controls">
+										<input type="text" placeholder="Address of Shop" name="address" required="">
+									</div>
+									<div class="controls">
+										<input type="text" placeholder="State" name="State" required="">
+									</div>
+
+								</div>
+								<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+							</div>
+						</div>
+					</form>
+					 <div class="checkout-right-basket payment-info">
+				         <button id="make-payment">Make payment
+							 <span class="fa fa-hand-o-right" aria-hidden="true"></span>
+				         </button>
+			          </div>
+					 <div class="note">
+						 <h4 class="text-black"> <span class="bg-dark">* Note :-</span> After Registeration Contact on <span class="bg-primary">8340312640</span> TO Activate Your Retailer Account</h4>
+				     </div>
+			  </div>
+		</div>
+	</div>
+	<!-- //checkout page -->
+	<script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+    <script type="text/javascript">
+
+		var user = '{{request.user}}'
+		var csrftoken = undefined;
+		function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie !== '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = cookies[i].trim();
+                     // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                    }
+                 }
+             }
+             return cookieValue;
+
+        }
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+			  csrftoken = getCookie('csrftoken');
+		  });
+
+		var form = document.getElementById('form')
+		form.addEventListener('submit', function(e){
+	    	e.preventDefault()
+	    	console.log('Form Submitted...')
+	    	document.getElementById('form-button').classList.add("hidden");
+
+	    })
+
+	    document.getElementById('make-payment').addEventListener('click', function(e){
+	    	submitFormData()
+
+	    })
+	    function submitFormData(){
+	    	console.log('reister sop  button clicked')
+            var userFormData = {
+				'name':null,
+				'email':null,
+			}
+
+			var shopInfo = {
+			    'shopname':null,
+			    'retailername':null,
+				'landmark':null,
+				'number':null,
+				'address':null,
+				'city':null,
+				'State':null,
+				'pincode':null,
+			}
+            shopInfo.shopname = form.shopname.value
+            shopInfo.retailername = form.retailername.value
+	    	shopInfo.address = form.address.value
+	    	shopInfo.landmark = form.landmark.value
+	    	shopInfo.number = form.number.value
+	    	shopInfo.city = form.city.value
+	    	shopInfo.state = form.State.value
+  		   	shopInfo.pincode = form.pincode.value
+
+
+	    	console.log('Shop Info:', shopInfo)
+
+	    	var url = "/grocery/register_shop"
+	    	fetch(url, {
+	    		method:'POST',
+	    		headers:{
+	    			'Content-Type':'applicaiton/json',
+	    			'X-CSRFToken':csrftoken,
+	    		},
+	    		body:JSON.stringify({'form':userFormData, 'shopInfo':shopInfo}),
+
+	    	})
+	    	.then((response) => response.json())
+	    	.then((data) => {
+				console.log('Success:', data);
+				alert('Registeration completed');
+
+				window.location.href = "/grocery/home"
+
+			})
+	    }
+	</script>
+	{% endblock %}

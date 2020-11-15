@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+	<!-- //banner-2 -->
+<body>	<!-- page -->
+
+
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/grocery/home">Home</a>
+						<i>|</i>
+					</li>
+					<li>My Orders</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- checkout page -->
+	<div class="privacy">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">My DashBoard
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+
+			<div class="checkout-right">
+				{% if user.is_authenticated %}
+
+				<div class="table-responsive">
+					<table class="timetable_sub">
+						<thead>
+							<tr>
+								<th>Product</th>
+								<th>Product Name</th>
+								<th>Price</th>
+								<th>Quality</th>
+								<th>Total</th>
+								<th>orderDate</th>
+							</tr>
+						</thead>
+						{% for i in MYORDER %}
+						<tbody>
+							<tr class="rem1">
+
+								<td class="invert-image">
+									<a href="single2.html">
+										<img src="{{i.item_ordered.item_imgURL}}" alt=" " class="img-responsive">
+									</a>
+								</td>
+								<td class="invert">{{i.item_ordered.item_name}}</td>
+								<td class="invert">{{i.item_ordered.price}}</td>
+								<td class="invert">
+									<div class="quantity">
+										<div class="quantity-select">
+											<span>{{i.quantity}}</span><br>
+										</div><br>
+
+									</div>
+								</td>
+
+								<!--<td class="invert">Rs {{i.item_ordered.price}}</td>-->
+								<td class="invert">Rs {{i.get_total}}</td>
+                                <td class="invert">{{i.date_ordered}}</td>
+								<!--<td class="invert">
+									<form action="#" method="post">
+										{% csrf_token %}
+										<fieldset>
+											<input type="submit" name="submit" value="Remove" data-product="{{i.item_ordered.id}}" data-action="delete" class="button update-cart" />
+										</fieldset>
+									</form>
+								</td>-->
+							</tr>
+
+						</tbody>
+						{% endfor %}
+					</table>
+				</div>
+
+				{% else %}
+                 <h1 style="float:right; color: #40424a;"> You are not logged in  Sign in First</h1>
+
+				{% endif %}
+
+
+			</div>
+		</div>
+	</div>
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+     <script src="{% static 'js/cart.js' %}"></script>
+
+</body>
+	<!-- //checkout page -->
+	{% endblock %}
