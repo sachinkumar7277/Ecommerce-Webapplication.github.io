@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/grocery/home">Home</a>
+						<i>|</i>
+					</li>
+					{% for shop in myshop %}
+					<li>Household Products</li>
+					<i>|</i>
+
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- top Products -->
+	<div class="ads-grid">
+		<div class="container">
+			<!-- tittle heading -->
+			<!-- //tittle heading -->
+			<!-- product left -->
+			<div class="side-bar col-md-3">
+				<div class="search-hotel">
+					<h3 class="agileits-sear-head">Search Here..</h3>
+					<form action="#" method="GET">
+						<input type="search" placeholder="Product name..." name="search" required="">
+						<input type="submit" value=" ">
+					</form>
+                </div>
+			</div>
+			<!-- //product left -->
+			<!-- product right -->
+			<div class="agileinfo-ads-display col-md-9 ">
+				<div class="wrapper">
+					<!-- first section -->
+					<div class="product-sec1">
+						{% for item in items %}
+						{% if item.special_offer == False %}
+						<h3 class="heading-tittle">{{item.item_card_header_title}}</h3>
+						<div class="col-md-4 product-men">
+							<div class="men-pro-item simpleCart_shelfItem">
+								<div class="men-thumb-item">
+									<img src='{{item.item_imgURL}}' alt="">
+									<div class="men-cart-pro">
+										<div class="inner-men-cart-pro">
+											<a href="/grocery/homepg_single/{{item.id}}" class="link-product-add-cart">Quick View</a>
+										</div>
+									</div>
+									<span class="product-new-top">New</span>
+								</div>
+								<div class="item-info-product ">
+									<h4>
+										<a href="single.html">{{item.item_name}}</a>
+									</h4>
+									<div class="info-product-price">
+										<span class="item_price">Rs{{item.price|floatformat:2}}</span>
+										<del>Rs{{item.discount_price}}</del>
+									</div>
+                                    <h4>
+										<a href="single.html">{{item.shop.shop_name}}</a>
+									</h4>
+									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+										<form action="#" method="post">{% csrf_token %}
+
+											<fieldset>
+
+												<input type="hidden" name="cmd" value="_cart" />
+												<input type="hidden" name="add" value="1" />
+												<input type="hidden" name="business" value=" " />
+												<input type="hidden" name="item_name" value="{{item.title}}" />
+												<input type="hidden" name="amount" value="{{item.price|floatformat:2}}" />
+												<input type="hidden" name="discount_amount" value="{{item.discount_price}}" />
+												<input type="hidden" name="currency_code" value="INR" />
+												<input type="hidden" name="return" value=" " />
+												<input type="hidden" name="cancel_return" value=" " />
+												<input type="submit" name="submit" value="Add to cart" data-product="{{item.id}}" data-action="add" class="button update-cart" />
+											</fieldset>
+										</form>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endfor %}
+						<div class="clearfix"></div>
+					</div>
+
+	<!-- special offers -->
+	<div class="featured-section" id="projects">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Special Offers
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<div class="content-bottom-in">
+				<ul id="flexiselDemo1">
+					{% for i in items %}
+					{% if i.special_offer == True %}
+					<li>
+						<div class="w3l-specilamk">
+							<div class="speioffer-agile">
+								<a href="/grocery/special_offer_single/{{i.id}}">
+									<img src='{{i.item_imgURL}}' alt="" height="140px" width="140px">
+								</a>
+							</div>
+							<div class="product-name-w3l">
+								<h4>
+									<a href="/grocery/special_offer_single/{{i.id}}">{{i.item_name}}</a>
+								</h4>
+								<div class="w3l-pricehkj">
+									<h6>Rs {{i.price}}</h6><br>
+									<br>
+									<del style="float: right;">Rs {{i.discount_price}}</del>
+								</div>
+								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+									<form action="#" method="post">
+										{% csrf_token %}
+										<fieldset>
+											<input type="hidden" name="cmd" value="_cart" />
+											<input type="hidden" name="add" value="1" />
+											<input type="hidden" name="business" value=" " />
+											<input type="hidden" name="item_name" value="{{i.title}}" />
+											<input type="hidden" name="amount" value="{{i.price}}" />
+											<input type="hidden" name="discount_amount" value="{{i.discount_price}}" />
+											<input type="hidden" name="currency_code" value="INR" />
+											<input type="hidden" name="return" value=" " />
+											<input type="hidden" name="cancel_return" value=" " />
+											<input type="submit" name="submit" value="Add to cart" data-product="{{i.id}}" data-action="add" class="button update-cart" />
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>
+					{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- //special offers -->
+     <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+     <script src="{% static 'js/cart.js' %}"></script>
+     <script type="text/javascript">
+		$(document).ready(function () {
+		    $(".update-cart").on("click", function(e){
+                e.preventDefault();
+                var productId = $(this).attr("data-product");
+		        var action = $(this).attr("data-action");
+
+           });
+
+			console.log('inside single.html');
+			console.log(csrftoken);
+
+		});
+	</script>
+	<!-- newsletter -->
+	{% endblock %}

@@ -1,0 +1,211 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% static "images" as baseURL %}
+{% block content %}
+
+         <!-- navigation -->
+	<div class="ban-top">
+		<div class="container">
+			<div class="agileits-navi_search">
+				<form action="#" method="post">
+					{% csrf_token %}
+					<select id="agileinfo-nav_search" name="agileinfo_search" required="">
+						<option value="">All Categories</option>
+						<option value="Kitchen">Kitchen</option>
+						<option value="Household">Household</option>
+						<option value="Snacks &amp; Beverages">Snacks & Beverages</option>
+						<option value="Personal Care">Personal Care</option>
+						<option value="Gift Hampers">Gift Hampers</option>
+						<option value="Fruits &amp; Vegetables">Fruits & Vegetables</option>
+						<option value="Baby Care">Baby Care</option>
+						<option value="Soft Drinks &amp; Juices">Soft Drinks & Juices</option>
+						<option value="Frozen Food">Frozen Food</option>
+						<option value="Bread &amp; Bakery">Bread & Bakery</option>
+						<option value="Sweets">Sweets</option>
+					</select>
+				</form>
+			</div>
+			<div class="top_nav_left">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+							    aria-expanded="false">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+						</div>
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse menu--shylock" id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav menu__list">
+								<li class="active">
+									<a class="nav-stylehead" href="/grocery/home ">Home
+										<span class="sr-only">(current)</span>
+									</a>
+								</li>
+								<li class="">
+									<a class="nav-stylehead" href="/grocery/about">About Us</a>
+								</li>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle nav-stylehead" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kitchen
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu multi-column columns-3">
+										<div class="agile_inner_drop_nav_info">
+											{% for cat in kitchencategory %}
+											<div class="col-sm-4 multi-gd-img">
+												<ul class="multi-column-dropdown">
+
+													<li>
+														<a href="/grocery/product/{{cat.id}}">{{cat.item_category}}</a>
+													</li>
+												</ul>
+											</div>
+											{% endfor %}
+											<div class="col-sm-4 multi-gd-img">
+												<img src="{% static 'images/nav.png' %}" alt="">
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</ul>
+								</li>
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle nav-stylehead" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Household
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu multi-column columns-3">
+										<div class="agile_inner_drop_nav_info">
+											<div class="col-sm-6 multi-gd-img">
+												<ul class="multi-column-dropdown">
+													<li>
+														<a href="/grocery/product2">Kitchen & Dining</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Detergents</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Utensil Cleaners</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Floor & Other Cleaners</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Disposables, Garbage Bag</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Repellents & Fresheners</a>
+													</li>
+													<li>
+														<a href="/grocery/product2"> Dishwash</a>
+													</li>
+												</ul>
+											</div>
+											<div class="col-sm-6 multi-gd-img">
+												<ul class="multi-column-dropdown">
+													<li>
+														<a href="/grocery/product2">Pet Care</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Cleaning Accessories</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Pooja Needs</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Crackers</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Festive Decoratives</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Plasticware</a>
+													</li>
+													<li>
+														<a href="/grocery/product2">Home Care</a>
+													</li>
+												</ul>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</ul>
+								</li>
+								{% if user.is_authenticated %}
+                                   <li class="nav-item active">
+                                        <a class="nav-link enabled" href="/grocery/profile/edit/{{user.profile.id}}" tabindex="-1" aria-disabled="false">Update profiles</a>
+                                   </li>
+
+    							{% endif %}
+								<li class="">
+									<a class="nav-stylehead" href="/grocery/contact">Contact</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- //navigation -->
+    <div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/grocery/home">Home</a>
+						<i>|</i>
+					</li>
+					<li><a href="/grocery/shippinfo/{{i.order.id}}"><button>Send Mail</button></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- checkout page -->
+		
+		<div class="container-fluid p-2">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Shipping Address info
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<div class="row m-0">
+				<div class="col-lg-6 col-md-6 col-12 ">
+
+					<div class="main-left-area h-100">
+						<section class="intro-section">
+							<div class="hero-info pt-5">
+
+								<h2 style="color: #40f42a;">Shipp Info</h2>
+								<ul>
+									{% for i in data %}
+
+									<li><b>Customer name: </b>{{i.order.cutomer.name}}</li>
+									<li><b>State: </b>{{i.state}}</li>
+									<li><b>City: </b>{{i.city}}</li>
+									<li><b>Address: </b>{{i.address}}</li>
+									<li><b>Landmark: </b>{{i.Landmark}}</li>
+									<li><b>Phone: </b>{{i.phone_no}}</li>
+									<li><b>Email Address: </b>{{i.cutomer.email}}</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</section>
+						<div class="social-links">
+							<a href=""><i class="fa fa-pinterest"></i></a>
+							<a href=""><i class="fa fa-linkedin"></i></a>
+							<a href=""><i class="fa fa-instagram"></i></a>
+							<a href=""><i class="fa fa-facebook"></i></a>
+							<a href=""><i class="fa fa-twitter"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				{% endblock %}

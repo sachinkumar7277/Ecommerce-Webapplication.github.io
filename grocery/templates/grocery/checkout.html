@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/grocery/home">Home</a>
+						<i>|</i>
+					</li>
+					<li>Checkout</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- checkout page -->
+	<div class="privacy">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Checkout
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+		    <div class="col-lg-6 col-md-6 col-12 ">
+			  <div class="checkout-left">
+				 <div class="address_form_agile">
+					<h4>Add Your shipping Address And Make Payment To Place Your Order</h4>
+					<form action="#" id="form" method="post" class="creditly-card-form agileinfo_form" enctype="multipart/form-data"> {% csrf_token %}
+
+						<div class="creditly-wrapper wthree, w3_agileits_wrapper">
+							<div class="information-wrapper shipping-info">
+								<div class="first-row">
+									<div class="controls">
+										<input class="billing-address-name" type="text" name="name" placeholder="Full Name" required="">
+									</div>
+									<div class="w3_agileits_card_number_grids">
+										<div class="w3_agileits_card_number_grid_left">
+											<div class="controls">
+												<input type="number" placeholder="Mobile Number" name="number" required="">
+											</div>
+										</div>
+										<div class="w3_agileits_card_number_grid_right">
+											<div class="controls">
+												<input type="text" placeholder="Landmark" name="landmark" required="">
+											</div>
+										</div>
+										<div class="clear"> </div>
+									</div>
+									<div class="controls">
+										<input type="text" placeholder="Town/City" name="city" required="">
+									</div>
+									<div class="controls">
+										<input type="number" placeholder="Pincode" name="pincode" required="">
+									</div>
+									<div class="controls">
+										<input type="text" placeholder="Address" name="Address" required="">
+									</div>
+									<div class="controls">
+										<input type="text" placeholder="State" name="State" required="">
+									</div>
+									<div class="controls">
+										<input type="email" placeholder="Email Address" name="email" required="">
+									</div>
+								</div>
+								<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+							</div>
+						</div>
+					</form>
+					  <div class="checkout-right-basket payment-info">
+				         <button id="make-payment">Order Cash On Delivery
+							 <span class="fa fa-hand-o-right" aria-hidden="true"></span>
+				         </button>
+			          </div>
+					  <!--div class="checkout-right-basket payment-info">
+				         <button id="make-payment">Go cash on Delivery
+							 <span class="fa fa-hand-o-right" aria-hidden="true"></span>
+				         </button>
+			          </--div>---->
+				 </div>
+				 <div class="clearfix"> </div>
+			  </div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-12 ">
+			  <div class="box-element">
+				  <h1><a  class="btn btn-outline-dark" href="#">&#x2190; Back to Cart</a></h1>
+				<hr>
+				<h3 style="color: #40424a;">Order Summary</h3>
+				<hr>
+				{% for item in items %}
+				<div class="cart-row " style="display: flex; align-items: flex-stretch; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #ececec;">
+
+					  <div style="display: inline-block;"><img class="row-image" src="{{item.item_ordered.item_imgURL}}"  style=" width: 50px; height: 60px;">&nbsp</div><br>
+					  <div><p>  # {{item.item_ordered.item_name  }} ::   </p></div><br>
+					  <div><p>  Per unit: Rs{{item.item_ordered.price}} ::  </p></div>
+					  <div><p>  Quantity: {{item.quantity}} </p></div>
+
+				</div>
+				{% endfor %}
+				<hr><hr>
+				  <div>
+				    <h5 style="color: #40424a;"> Total Items:   {{Order.get_cart_items}} </h5><br>
+				    <h5 style="color: #40424a;"> You Need To Pay Total:  Rs {{Order.get_cart_total}}</h5>
+				  </div>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<!-- //checkout page -->
+	<script type="text/javascript" src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+    <script type="text/javascript">
+
+		var user = '{{request.user}}'
+		var csrftoken = undefined;
+		function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie !== '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = cookies[i].trim();
+                     // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                    }
+                 }
+             }
+             return cookieValue;
+
+        }
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+			  csrftoken = getCookie('csrftoken');
+		  });
+
+		var shipping = '{{Order.shipping}}'
+
+		var total = '{{Order.get_cart_total|floatformat:2}}'
+        console.log(csrftoken)
+        console.log(csrftoken)
+        console.log(csrftoken)
+        console.log(csrftoken)
+        console.log(csrftoken)
+		if (shipping == 'False'){
+		    console.log("shipping is false")
+		 	document.getElementById('shipping-info').innerHTML = ''
+		}
+
+		if (shipping == 'False' && user != 'AnonymousUser'){
+			//Hide entire form if user is logged in and shipping is false
+				document.getElementById('form-wrapper').classList.add("hidden");
+				//Show payment if logged in user wants to buy an item that does not require shipping
+
+		}
+
+		var form = document.getElementById('form')
+		form.addEventListener('submit', function(e){
+	    	e.preventDefault()
+	    	console.log('Form Submitted...')
+	    	document.getElementById('form-button').classList.add("hidden");
+
+	    })
+
+	    document.getElementById('make-payment').addEventListener('click', function(e){
+	    	submitFormData()
+
+	    })
+
+	    function submitFormData(){
+	    	console.log('Payment button clicked')
+            var userFormData = {
+				'name':null,
+				'email':null,
+				'total':total,
+			}
+
+			var shippingInfo = {
+
+				'landmark':null,
+				'number':null,
+				'Address':null,
+				'city':null,
+				'State':null,
+				'pincode':null,
+			}
+
+			if (shipping != 'False'){
+	    		shippingInfo.address = form.Address.value
+	    		shippingInfo.landmark = form.landmark.value
+	    		shippingInfo.number = form.number.value
+		    	shippingInfo.city = form.city.value
+		    	shippingInfo.state = form.State.value
+		    	shippingInfo.pincode = form.pincode.value
+	    	}
+
+	    	console.log('Shipping Info:', shippingInfo)
+
+	    	var url = "/grocery/process_order"
+	    	fetch(url, {
+	    		method:'POST',
+	    		headers:{
+	    			'Content-Type':'applicaiton/json',
+	    			'X-CSRFToken':csrftoken,
+	    		},
+	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),
+
+	    	})
+	    	.then((response) => response.json())
+	    	.then((data) => {
+				console.log('Success:', data);
+				alert('Transaction completed');
+
+				window.location.href = "/grocery/home"
+
+			})
+	    }
+	</script>
+	{% endblock %}
